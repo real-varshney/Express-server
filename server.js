@@ -25,8 +25,8 @@ app.get("/sendemail", async (req, res) => {
   if (!userEmail) {
      return res.status(400).json({ error: "Email is required" });
   }
-
-  const verificationLink = `http://localhost:3000/verify?username=${username}&token=${token}`;
+  const url = process.env.FRONTENDDOMAIN
+  const verificationLink = `${url}/verify?username=${username}&token=${token}`;
  
   const { data, error } = await sender.emails.send({
    from: process.env.MYDOMAIN,
