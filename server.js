@@ -28,19 +28,25 @@ app.get("/sendemail", async (req, res) => {
   const url = process.env.FRONTENDDOMAIN
   const verificationLink = `${url}/verify?username=${username}&token=${token}`;
  
-  const { data, error } = await sender.emails.send({
-     from: 'onboarding@resend.dev',
-     to: userEmail, 
-     subject: 'Verify the Email',
-     html: '<h1>Verify your email</h1><p>Click the link below to verify your email</p><a href="' + verificationLink + '">Verify Email</a>',
+ const { data, error } = await sender.emails.send({
+   from: 'onboarding@resend.dev',
+   to: userEmail, 
+   subject: 'Welcome to dribbble! Please Verify Your Email',
+   html: `
+      <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+        <h2 style="color: #4CAF50;">Welcome to dribbble!</h2>
+        <p>Hello ${username},</p>
+        <p>Thank you for signing up! We're excited to have you on board. To complete your account setup, please verify your email address by clicking the button below:</p>
+        <a href="${verificationLink}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 20px;">Verify Email</a>
+        <p>If you didn't sign up for [Your Platform], you can ignore this email.</p>
+        <p>Thank you for choosing [Your Platform]!</p>
+        <p>Best Regards,</p>
+        <p>[Your Name]</p>
+        <p>[Your Position]</p>
+        <p>[Your Contact Information]</p>
+      </div>
+   `,
   });
- 
-  if (error) {
-     return res.status(400).json({ error });
-  }
- 
-  res.status(200).json({ data });
- });
  
 app.get('/verify', async(req, res) => {
    const username = req.query.username;
