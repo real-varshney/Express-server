@@ -29,7 +29,7 @@ app.get("/sendemail", async (req, res) => {
   const verificationLink = `http://localhost:3000/verify?username=${username}&token=${token}`;
  
   const { data, error } = await sender.emails.send({
-   from: 'onboarding@resend.dev',
+   from: process.env.MYDOMAIN,
    to: userEmail, 
    subject: 'Welcome to dribbble! Please Verify Your Email',
    html: `
